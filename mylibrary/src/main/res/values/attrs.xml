@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FormView">
+        <attr name="Xname" format="string"/>
+        <attr name="XLineColor" format="color|integer"/>
+        <attr name="XNameColor" format="color|integer"/>
+        <attr name="XNameSize" format="color|integer"/>
+
+        <attr name="Yname" format="string"/>
+        <attr name="YLineColor" format="color|integer"/>
+        <attr name="YNameColor" format="color|integer"/>
+        <attr name="YNameSize" format="color|integer"/>
+
+        <!-- 柱形图相关 -->
+        <attr name="ColumnType" format="integer"/>
+        <attr name="ColumnColor" format="integer"/>
+        <attr name="ColumnWidth" format="dimension"/>
+        <attr name="ColumnMaxHeight" format="dimension"/>
+    </declare-styleable>
+</resources>

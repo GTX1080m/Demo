@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -37,11 +38,11 @@ public class FormView extends View {
     }
 
     public FormView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public FormView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public FormView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -58,21 +59,21 @@ public class FormView extends View {
         if (mDataList == null) {
             return;
         }
-        for (DataBean dataBean : mDataList) {
-            XNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            XNamePaint.setTextSize(16);
-            XNamePaint.setColor(Color.RED);
-            XNamePaint.setAntiAlias(true);
+        XNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        XNamePaint.setTextAlign(Paint.Align.CENTER);
+        XNamePaint.setTextSize(Dp2PxUtil.sp2px(context,15));
+        XNamePaint.setColor(Color.RED);
+        XNamePaint.setAntiAlias(true);
 
-            YNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            YNamePaint.setTextSize(16);
-            YNamePaint.setColor(Color.RED);
-            YNamePaint.setAntiAlias(true);
-        }
+        YNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        YNamePaint.setTextSize(16);
+        YNamePaint.setColor(Color.RED);
+        YNamePaint.setAntiAlias(true);
     }
 
     private void getAttrs(Context context) {
         TypedArray typedArray = context.obtainStyledAttributes(R.styleable.FormView);
+        columnWidth = typedArray.getInteger(R.styleable.FormView_ColumnWidth, Dp2PxUtil.dip2px(context, 20));
         typedArray.recycle();
     }
 
@@ -84,5 +85,13 @@ public class FormView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        for (int i = 0; i < mDataList.size(); i++) {
+            DataBean dataBean = mDataList.get(i);
+            Rect rect = new Rect();
+            XNamePaint.getTextBounds(dataBean.getXName(),0,dataBean.getXName().length(),rect);
+            Paint.FontMetricsInt fontMetrics = XNamePaint.getFontMetricsInt();
+            int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+            canvas.drawText(dataBean.getXName(),getMeasuredWidth() / 2 - rect.width() / 2, baseline, XNamePaint);
+        }
     }
 }
